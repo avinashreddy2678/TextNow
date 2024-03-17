@@ -14,12 +14,33 @@ model User {
   password      String?
   emailVerified DateTime?
   image         String?
-  accounts      Account[]
 
-  senderConvo   Conversation[] @relation("senderForConvo")
-  receiverConvo Conversation[] @relation("receiverForConvo")
-  Message       Message[]
-  AddedFriends  AddedFriends[]
+  accounts            Account[]
+  senderConvo         Conversation[]   @relation("senderForConvo")
+  receiverConvo       Conversation[]   @relation("receiverForConvo")
+  Message             Message[]
+  RequestedFriend     FriendRequests[] @relation("requested")
+  ToAddFriendId       AddedFriends[]   @relation("toaddfriend")
+  ToAddFriendSenderId AddedFriends[]   @relation("toaddfriendsenderid")
+}
+
+model AddedFriends {
+  id         String @id @default(cuid())
+  userId     String
+  sentUserId String
+
+  AddedFriends User @relation("toaddfriend", fields: [userId], references: [id], onDelete: Cascade)
+  AddedFriend  User @relation("toaddfriendsenderid", fields: [sentUserId], references: [id], onDelete: Cascade)
+
+  @@unique([userId])
+}
+
+model FriendRequests {
+  id       String @id @default(cuid())
+  Requests User   @relation("requested", fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
+
+  @@unique([userId])
 }
 
 model Account {
@@ -59,15 +80,9 @@ model resetPasswordsVerificationToken {
   @@unique([email, token])
 }
 
-model AddedFriends {
-  id      String @id @default(cuid())
-  Friends User[]
-}
-
 model Message {
-  id       String @id @default(cuid())
-  senderId String
-
+  id             String       @id @default(cuid())
+  senderId       String
   message        String
   conversationId String
   Conversation   Conversation @relation(fields: [conversationId], references: [id])

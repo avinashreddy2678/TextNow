@@ -11,7 +11,6 @@ const getAllUsers = async () => {
         email: true,
       },
     });
-
     return [...allusers];
   } catch (error) {
     return [];

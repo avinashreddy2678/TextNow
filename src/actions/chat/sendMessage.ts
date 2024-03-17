@@ -1,12 +1,10 @@
-"use server"
+"use server";
 import { db } from "@/lib/db";
-
-
 
 const SendMessage = async ({ senderId, receiverId, message }: any) => {
   try {
     // Check if senderId and receiverId are provided
-    console.log(senderId,receiverId,message)
+    console.log(senderId, receiverId, message);
     if (!senderId || !receiverId) {
       return { error: "SenderId or receiverId is missing" };
     }
@@ -26,7 +24,6 @@ const SendMessage = async ({ senderId, receiverId, message }: any) => {
         ],
       },
     });
-    
 
     // If conversation does not exist, create it
     if (!existingConversation) {
@@ -36,19 +33,17 @@ const SendMessage = async ({ senderId, receiverId, message }: any) => {
           receiverId,
         },
       });
-      
     }
 
     // Create the message and associate it with the conversation
     const createdMessage = await db.message.create({
       data: {
-        senderId: senderId, 
-        message: message,  
-        conversationId:existingConversation.id
+        senderId: senderId,
+        message: message,
+        conversationId: existingConversation.id,
       },
     });
-    
-    
+
     // Update the existing conversation to include the newly created message
     existingConversation = await db.conversation.update({
       where: { id: existingConversation.id },
@@ -62,11 +57,13 @@ const SendMessage = async ({ senderId, receiverId, message }: any) => {
       },
     });
 
-    console.log("Message added to existing conversation:", existingConversation);
+    // console.log(
+    //   "Message added to existing conversation:",
+    //   existingConversation
+    // );
 
     return {
       existingConversation,
-      msg: "Message added to existing conversation",
     };
   } catch (error) {
     console.error("Error sending message:", error);

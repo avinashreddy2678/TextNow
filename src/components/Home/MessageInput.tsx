@@ -3,9 +3,12 @@ import { Input } from "../ui/input";
 import useConversation from "@/Zustand/useConversation";
 import SendMessage from "@/actions/chat/sendMessage";
 import { Button } from "../ui/button";
+// import getAddedFriends from "@/actions/chat/getAddedFriends";
+import AddFriend from "@/actions/chat/AddFriend";
 
 const MessageInput = () => {
   const { selectedConversation, currentUser } = useConversation();
+  const uu=currentUser as string;
   const [msg, setMsg] = useState("");
   const onMessageSend = async() => {
    const sentMsg=await SendMessage({
@@ -13,7 +16,8 @@ const MessageInput = () => {
       receiverId: selectedConversation?.props?.id,
       message: msg,
     });
-    console.log(sentMsg)
+    const added=await AddFriend({userId:uu,senderId:selectedConversation?.props?.id})
+    console.log(added)
   };
 
   return (
