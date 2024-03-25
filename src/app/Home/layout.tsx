@@ -1,4 +1,4 @@
-import Sidebar from "@/components/Home/Sidebar";
+
 
 export default function Homelayout({
   children,
@@ -7,7 +7,7 @@ export default function Homelayout({
 }) {
   return (
     <section className="h-full flex">
-      <Sidebar />
+      
       {children}
     </section>
   );
