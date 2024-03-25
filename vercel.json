@@ -1,6 +1,9 @@
 {
-    "build": {
-      "postinstall": "prisma generate && <other build commands here>"
-    }
+    "builds": [
+      {
+        "src": "package.json",
+        "use": "@vercel/node"
+      }
+    ]
   }
   
