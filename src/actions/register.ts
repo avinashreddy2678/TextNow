@@ -17,7 +17,7 @@ export async function Register(values:z.infer<typeof RegisterSchema>){
         }
     })
     if(existinguser){
-        return {error:"User already exists"}
+        return {error:"Account already Created"}
     }
     const hashedPassword=await bcrypt.hash(validateFields.data.password,10);
     await db.user.create({
@@ -28,6 +28,6 @@ export async function Register(values:z.infer<typeof RegisterSchema>){
         }
     })
     const verificationToken=await generateVerificationToken(validateFields.data.email)
-    await sendVerificationMail(verificationToken.email,verificationToken.token)
-    return {success:"Verification Email Sent"}
+    await sendVerificationMail(verificationToken.email,verificationToken.token,verificationToken.OTP)
+    return {success:"OTP Sent",token:verificationToken.token}
 }

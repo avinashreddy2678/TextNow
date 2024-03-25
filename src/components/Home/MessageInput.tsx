@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import useConversation from "@/Zustand/useConversation";
 import SendMessage from "@/actions/chat/sendMessage";
 import { Button } from "../ui/button";
 // import getAddedFriends from "@/actions/chat/getAddedFriends";
 import AddFriend from "@/actions/chat/AddFriend";
+import { pusherClient } from "@/lib/pusher";
+
 
 const MessageInput = () => {
   const { selectedConversation, currentUser } = useConversation();
@@ -16,8 +18,9 @@ const MessageInput = () => {
       receiverId: selectedConversation?.props?.id,
       message: msg,
     });
-    const added=await AddFriend({userId:uu,senderId:selectedConversation?.props?.id})
-    console.log(added)
+    // await pusherClient(currentUser,"new-message",msg);
+    // const added=await AddFriend({userId:uu,senderId:selectedConversation?.props?.id})
+    // console.log(added)
   };
 
   return (

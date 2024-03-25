@@ -18,9 +18,7 @@ const getMessages = async ({ senderId, recevierId }: convo) => {
         { receiverId: recevierId  }
       ]
     },
-    include:{
-        messages: true
-    }
+   
   });
   // console.log(conversation)
   return conversation

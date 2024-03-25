@@ -20,8 +20,10 @@ import { login } from "@/actions/login";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
+  const router=useRouter()
   const [success, SetSuccess] = useState<string | undefined>();
   const [error, SetError] = useState<string | undefined>();
   const [isPending, startTransition] = useTransition();
@@ -41,6 +43,9 @@ const LoginForm = () => {
           SetError(data?.error);
         }
         if (data?.success) {
+          setTimeout(() => {
+            router.push(`/auth/Otp?token=${data.token}`);
+          }, 2000);
           SetSuccess(data?.success);
         }
       });

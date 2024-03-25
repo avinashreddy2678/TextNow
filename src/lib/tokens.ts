@@ -4,6 +4,9 @@ import { db } from "./db";
 import { getPasswordTokenbyemail } from "@/data/PasswordToken";
 export const generateVerificationToken = async (email: string) => {
   const token = uuidv4();
+  const Otp = Math.floor(1000 + Math.random() * 9000);
+
+
   const expires = new Date(new Date().getTime() + 3600 * 1000);
   const existingToken = await getVerificationByEmail(email);
   if (existingToken) {
@@ -18,6 +21,7 @@ export const generateVerificationToken = async (email: string) => {
       token,
       expires,
       email,
+      OTP:Otp
     },
   });
   return verificationToken;

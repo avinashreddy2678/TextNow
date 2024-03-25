@@ -21,8 +21,11 @@ import { Button } from "../ui/button";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
 import { Register } from "@/actions/register";
+import { useRouter } from "next/navigation";
 
 const RegitserForm = () => {
+  const router = useRouter();
+
   const [success, SetSuccess] = useState<string | undefined>();
   const [error, SetError] = useState<string | undefined>();
   const [isPending, startTransition] = useTransition();
@@ -41,7 +44,15 @@ const RegitserForm = () => {
       Register(values).then((data) => {
         if (data.success) {
           SetSuccess(data.success);
+          setTimeout(() => {
+            router.push(`/auth/Otp?token=${data.token}`);
+          }, 2000);
         } else {
+          if (data?.error === "Account already Created") {
+            setTimeout(() => {
+              router.push("/auth/login");
+            }, 1000);
+          }
           SetError(data?.error);
         }
       });

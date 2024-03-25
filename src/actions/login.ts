@@ -9,7 +9,7 @@ import bcrypt from "bcryptjs";
 import { DEFAULT_LOGIN_REDIRECT } from "@/Allroutes";
 import { AuthError } from "next-auth";
 import { generateVerificationToken } from "@/lib/tokens";
-import { sendVerificationMail } from "@/lib/mail";
+// import { sendVerificationMail } from "@/lib/mail";
 
 export async function login(values: z.infer<typeof LoginSchema>) {
   const validateFields = LoginSchema.safeParse(values);
@@ -38,8 +38,8 @@ export async function login(values: z.infer<typeof LoginSchema>) {
     const verficationToken = await generateVerificationToken(
       validateFields.data.email
     );
-    await sendVerificationMail(validateFields.data.email,verficationToken.token)
-    return { success: "verification email sent" };
+    // await sendVerificationMail(validateFields.data.email,verficationToken.token)
+    return { success: "verification email sent",token:verficationToken };
   }
   try {
     await signIn("credentials", {
