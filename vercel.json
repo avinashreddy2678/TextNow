@@ -1,0 +1,6 @@
+{
+    "build": {
+      "postinstall": "prisma generate && <other build commands here>"
+    }
+  }
+  
